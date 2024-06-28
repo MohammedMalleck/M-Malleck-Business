@@ -1,0 +1,21 @@
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+:root{
+  --light-theme-bg:linear-gradient(to bottom, #7397F1 0%, #A2B3EC 25%, #C4CBF0 57%, #D5D7F2 100%);
+}
+html{
+  font-size: 10px;
+}
+body{
+  font-family: "Roboto";
+  font-size: 1.6rem;
+}
+main{
+  background:var(--light-theme-bg);
+  height: 100vh;
+  min-height: 100svh;
+  display: flex;
+}
