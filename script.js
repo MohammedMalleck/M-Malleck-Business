@@ -1,4 +1,4 @@
-function displayParticles(){
+function displayParticles(speed,color){
   particlesJS("particles-js",
     {
        "particles": {
@@ -10,7 +10,7 @@ function displayParticles(){
            }
          },
          "color": {
-           "value": "#172145"
+           "value": color
          },
          "shape": {
            "type": "circle",
@@ -50,13 +50,13 @@ function displayParticles(){
          "line_linked": {
            "enable": true,
            "distance": 150,
-           "color": "#172145",
+           "color": color,
            "opacity": 0.4,
            "width": 1
          },
          "move": {
            "enable": true,
-           "speed":6,
+           "speed":speed,
            "direction": "none",
            "random": false,
            "straight": false,
@@ -111,4 +111,4 @@ function displayParticles(){
        "retina_detect": true
   });
 };
-displayParticles();
+displayParticles(3,"#172145");
