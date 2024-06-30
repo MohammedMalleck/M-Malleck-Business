@@ -1,3 +1,5 @@
+const mainEl = document.querySelector('main');
+
 function displayParticles(speed,color){
   particlesJS("particles-js",
     {
@@ -111,4 +113,30 @@ function displayParticles(speed,color){
        "retina_detect": true
   });
 };
+
 displayParticles(3,"#172145");
+
+document.querySelector('.theme-icon').addEventListener('click',()=>{
+  //get the particles objecta
+  const pJS = window.pJSDom[0].pJS;
+  const mainElClass = mainEl.classList[0];
+  //if there is a class then remove it
+  if(mainElClass){
+     mainEl.classList.remove(mainElClass);
+     //add the opposite class
+     mainElClass === 'dark' ?  mainEl.classList.add('light') :  mainEl.classList.add('dark');  
+     //get the new theme color and modify the particles object
+     const particlesColor = getComputedStyle(document.documentElement).getPropertyValue(`--${mainEl.classList[0]}-color`);
+     pJS.particles.color.value = particlesColor;
+     pJS.particles.line_linked.color = particlesColor;
+  }else{
+    //if there isnt a class then simply add dark class
+    //modify the particles object to dark color 
+    pJS.particles.color.value = '#66FCF1';
+    pJS.particles.line_linked.color = '#66FCF1';
+    mainEl.classList.add('dark');   
+  }
+  //refresh the particles
+  pJS.fn.particlesRefresh();
+  
+});
