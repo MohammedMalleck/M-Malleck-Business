@@ -29,27 +29,41 @@ main{
     background: var(--dark-theme-bg);
     color: var(--dark-color);
 
-    & .theme-icon{
-      & .shape-icon{
-        animation:moveToSun 0.5s ease forwards;
-        fill:var(--dark-color);
-      }
-      &  .cover-circle{
-        transform:translate(15px,0px);
-      }
-      & g > circle{
-       animation:showRays .5s ease forwards;
-       animation-delay:calc(var(--circle-num) * 0.05s);
-      }
+    
+    & .shape-icon{
+      animation:moveToSun 0.5s ease forwards;
+      fill:var(--dark-color);
+    }
+    &  .cover-circle{
+      transform:translate(15px,0px);
+    }
+    & g > circle{
+      animation:showRays .5s ease forwards;
+      animation-delay:calc(var(--circle-num) * 0.05s);
+    }
+    
+
+    & .bar-icon > div{
+      background-color: var(--dark-color);
+    }
+    & .sidebar{
+      background-color: black;
+    }
+    ul li::before{
+      background-color: var(--dark-color);
     }
   }
-  &.light .theme-icon{
+  &.light{
     & .shape-icon{
       animation:moveToMoon 1s ease forwards;
     }
   }
 }
 header{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -62,11 +76,11 @@ ul {
   justify-content: center;
   list-style: none;
   gap: 40px;
-  cursor: pointer;
   font-size: 1.5rem;
 
   & li{
     position: relative;
+    cursor: pointer;
     &::before{
       content: '';
       position: absolute;
@@ -89,74 +103,107 @@ ul {
   height:25px;
   display:flex;
   cursor:pointer;
+}
+svg{
+  width:100%;
+  height:100%;
+  transform:rotate(40deg);
+  overflow:visible;
 
-  & svg{
+  & mask rect{
     width:100%;
     height:100%;
-    transform:rotate(40deg);
-    overflow:visible;
-
-    & mask rect{
-      width:100%;
-      height:100%;
-    }
-    
-    & .shape-icon{
-      transform-origin:center center;
-      transform:rotate(0deg) scale(1);
-      transition:fill .15s ease;
-      fill:var(--light-color);
-    }
-    & .cover-circle{
-      transform:translate(0px,0px);
-      transition:transform 0.5s ease;
-    }
-    & g > circle{
-      transform-origin:center center;
-      transform:scale(0);
-      fill:var(--dark-color);
-    }
+  }
+  
+  & .shape-icon{
+    transform-origin:center center;
+    transform:rotate(0deg) scale(1);
+    transition:fill .15s ease;
+    fill:var(--light-color);
+  }
+  & .cover-circle{
+    transform:translate(0px,0px);
+    transition:transform 0.5s ease;
+  }
+  & g > circle{
+    transform-origin:center center;
+    transform:scale(0);
+    fill:var(--dark-color);
   }
 }
 .bar-icon{
-  height: 18px;
+  height: 22px;
   width: 22px;
   display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
   cursor: pointer;
+  position: fixed;
+  top: 16px;
+  right: 15px;
+  z-index: 5;
+  transition: transform .35s ease;
   & > div{
+    position: absolute;
     width: 100%;
     height: 2px;
     background-color: var(--light-color);
-    border-radius: 100vw;
+    transition: transform .35s ease;
+
+    &:nth-child(2){
+      top:8px;
+    }
+    &:nth-child(3){
+      top:16px;
+    }
+  }
+  &.active{
+    transform: rotate(-90deg);
+  }
+  &.active  > div:nth-child(1){
+    transform: rotate(-45deg) translate(-5.5px,6px);
+  }
+  &.active  > div:nth-child(2){
+    transform: rotate(180deg) scale(0);
+  }
+  &.active  > div:nth-child(3){
+    transform: rotate(45deg) translate(-5.5px,-6px);
   }
 }
 .sidebar{
+  display: none;
   position: fixed;
   top: 0px;
   bottom: 0px;
   right: 0px;
   width: 300px;
-  background-color: var(--light-color);
-  display: none;
-  flex-direction: column;
-  padding:50px 0px 0px 10px;
-  color: white;
+  background-color: white;
+  padding:50px 0px 0px 15px;
+  clip-path: inset(0px 0px 0px 300px);
+  transition: clip-path 0.5s ease;
 
   & ul{
     flex-direction: column;
     gap: 20px;
     align-items: start;
-    & li:hover::before{
-      background-color: white;
+    & li{
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
   }
+  &.show{
+   clip-path: inset(0px 0px 0px 0px);
+  }
+}
+.theme-icon-side{
+  display: flex;
+  align-items: center;
+  width: 20px;
+  aspect-ratio: 1;
 }
 @media (max-width:650px){
-  .bar-icon{
-    display: flex;
+  .bar-icon,
+  .sidebar{
+    display: block;
   }
   header ul,
   .theme-icon{
