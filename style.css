@@ -52,6 +52,12 @@ main{
     ul li::before{
       background-color: var(--dark-color);
     }
+    & .sidebar ul li:last-child span{
+      opacity: 0;
+    }
+    & .sidebar ul li:last-child::after{
+      opacity: 1;
+    }
   }
   &.light{
     & .shape-icon{
@@ -139,7 +145,7 @@ svg{
   position: fixed;
   top: 16px;
   right: 15px;
-  z-index: 5;
+  z-index: 2;
   transition: transform .35s ease;
   & > div{
     position: absolute;
@@ -185,9 +191,24 @@ svg{
     gap: 20px;
     align-items: start;
     & li{
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 10px;
+    }
+    & li:last-child span{
+      opacity: 1;
+    }
+    & li:last-child::after{
+      position: absolute;
+      content: 'Light Mode';
+      color:var(--dark-color);
+      opacity: 0;
+      font-size: 1.5rem;
+    }
+    & li:last-child span,
+    & li:last-child::after{
+      transition: opacity .15s ease;
     }
   }
   &.show{

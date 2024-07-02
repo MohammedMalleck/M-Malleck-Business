@@ -1,5 +1,3 @@
-const mainEl = document.querySelector('main');
-
 function displayParticles(speed,color){
   particlesJS("particles-js",
     {
@@ -117,6 +115,7 @@ function displayParticles(speed,color){
 displayParticles(3,"#172145");
 
 function handleTheme(){
+  const mainEl = document.querySelector('main');
     //get the particles objecta
     const pJS = window.pJSDom[0].pJS;
     const mainElClass = mainEl.classList[0];
@@ -141,7 +140,8 @@ function handleTheme(){
 }
 
 document.querySelector('.theme-icon').addEventListener('click',handleTheme);
-document.querySelector('.theme-icon-side').addEventListener('click',handleTheme);
+//acces the last li element of the sidebar
+document.querySelector('.sidebar > ul > li:last-child').addEventListener('click',handleTheme);
 
 document.querySelector('.bar-icon').addEventListener('click',()=>{
   document.querySelector('.bar-icon').classList.toggle('active');
