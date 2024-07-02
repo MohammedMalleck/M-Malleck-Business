@@ -112,9 +112,41 @@ function displayParticles(speed,color){
   });
 };
 
-displayParticles(3,"#172145");
+function dislplayDefaultTheme(){
+  const mainEl = document.querySelector('main');
+  const systemSettingTheme = window. matchMedia("(prefers-color-scheme: dark)");
+  const userSavedTheme = JSON.parse(localStorage.getItem('theme'));
+  //if the user has saved a dark theme or if the user has saved no theme 
+  //and the system prefrence theme is dark then add dark styles through inline css
+  if(userSavedTheme === 'dark' || systemSettingTheme.matches && !userSavedTheme){
+    mainEl.style.transition = 'none';
+    document.querySelector('.shape-icon').style = 'transform:rotate(90deg) scale(.55); transition:none; fill:#66FCF1;';
+    document.querySelector('.cover-circle').style.transition = 'none';
+    document.querySelectorAll('g > circle').forEach(cirlceEl => {
+      cirlceEl.style.transform = 'scale(1)';
+      cirlceEl.style.animation = 'none';
+    });
+    mainEl.classList.add('dark');
+    displayParticles(3,'#66FCF1');
+  }else{
+    //display particles with light theme 
+    displayParticles(3,'#172145');    
+  }
+}
+
+function removeSystemStyles(){
+  document.querySelector('main').style = '';
+  document.querySelector('.shape-icon').style = '';
+  document.querySelector('.cover-circle').style = '';
+  document.querySelectorAll('g > circle').forEach((cirlceEl,index) =>  cirlceEl.style = `--circle-num:${index % 7};`);
+}
+
+dislplayDefaultTheme();
 
 function handleTheme(){
+  //remove the inline styles 
+  //independent of weahter they exists or not
+  removeSystemStyles();
   const mainEl = document.querySelector('main');
     //get the particles objecta
     const pJS = window.pJSDom[0].pJS;
@@ -135,6 +167,7 @@ function handleTheme(){
       pJS.particles.line_linked.color = '#66FCF1';
       mainEl.classList.add('dark');   
     }
+    localStorage.setItem('theme',JSON.stringify(mainEl.classList[0]));
     //refresh the particles
     pJS.fn.particlesRefresh();
 }
