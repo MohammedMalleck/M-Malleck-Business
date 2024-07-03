@@ -24,6 +24,8 @@ main{
   display: flex;
   flex-direction: column;
   transition: background 0.15s ease , color 0.15s ease;
+  position: relative;
+  overflow: hidden;
 
   &.dark{
     background: var(--dark-theme-bg);
@@ -221,6 +223,14 @@ svg{
   width: 20px;
   aspect-ratio: 1;
 }
+
+.particles-js-container{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
 @media (max-width:650px){
   .bar-icon,
   .sidebar{
