@@ -111,71 +111,82 @@ function displayParticles(speed,color){
        "retina_detect": true
   });
 };
-
-function dislplayDefaultTheme(){
-  const mainEl = document.querySelector('main');
-  const systemSettingTheme = window. matchMedia("(prefers-color-scheme: dark)");
-  const userSavedTheme = JSON.parse(localStorage.getItem('theme'));
-  //if the user has saved a dark theme or if the user has saved no theme 
-  //and the system prefrence theme is dark then add dark styles through inline css
-  if(userSavedTheme === 'dark' || systemSettingTheme.matches && !userSavedTheme){
-    mainEl.style.transition = 'none';
-    document.querySelector('.shape-icon').style = 'transform:rotate(90deg) scale(.55); transition:none; fill:#66FCF1;';
-    document.querySelector('.cover-circle').style.transition = 'none';
-    document.querySelectorAll('g > circle').forEach(cirlceEl => {
-      cirlceEl.style.transform = 'scale(1)';
-      cirlceEl.style.animation = 'none';
-    });
-    mainEl.classList.add('dark');
-    displayParticles(3,'#66FCF1');
-  }else{
-    //display particles with light theme 
-    displayParticles(3,'#172145');    
-  }
-}
-
-function removeSystemStyles(){
-  document.querySelector('main').style = '';
-  document.querySelector('.shape-icon').style = '';
-  document.querySelector('.cover-circle').style = '';
-  document.querySelectorAll('g > circle').forEach((cirlceEl,index) =>  cirlceEl.style = `--circle-num:${index % 7};`);
-}
-
-dislplayDefaultTheme();
-
 function handleTheme(){
   //remove the inline styles 
   //independent of weahter they exists or not
-  removeSystemStyles();
+  document.querySelector('.shape-icon').style = '';
+  document.querySelectorAll('g > circle').forEach((cirlceEl,index) =>  cirlceEl.style = `--circle-num:${index % 7};`);
+
   const mainEl = document.querySelector('main');
   const audioEl = document.querySelector('audio');
   //get the particles objecta
   const pJS = window.pJSDom[0].pJS;
-  const mainElClass = mainEl.classList[0];
   //if there is a class then remove it
-  if(mainElClass){
-    mainEl.classList.remove(mainElClass);
-    //add the opposite class
-    mainElClass === 'dark' ?  mainEl.classList.add('light') :  mainEl.classList.add('dark');  
-    //get the new theme color and modify the particles object
-    const particlesColor = getComputedStyle(document.documentElement).getPropertyValue(`--${mainEl.classList[0]}-color`);
-    pJS.particles.color.value = particlesColor;
-    pJS.particles.line_linked.color = particlesColor;
-  }else{
-    //if there isnt a class then simply add dark class
-    //modify the particles object to dark color 
-    pJS.particles.color.value = '#66FCF1';
-    pJS.particles.line_linked.color = '#66FCF1';
-    mainEl.classList.add('dark');   
-  }
-  localStorage.setItem('theme',JSON.stringify(mainEl.classList[0]));
+  mainEl.className === 'dark' ? mainEl.className = 'light' : mainEl.className = 'dark';
+  //get the new theme color and modify the particles object
+  const particlesColor = mainEl.className === 'dark'  ? '#66FCF1' : '#1f2c5c';
+  pJS.particles.color.value = particlesColor;
+  pJS.particles.line_linked.color = particlesColor;
+  localStorage.setItem('theme',JSON.stringify(mainEl.className));
   //play the sound effect 
   audioEl.pause();
   audioEl.currentTime = 0;
   audioEl.play();
   //refresh the particles
   pJS.fn.particlesRefresh();
-}
+};
+function animateSkillsText(skillIndexValue){
+  const skills = ['Web Developer','UI/UX Designer'];
+  const skillTextEl = document.querySelector('.skill-text');
+  const skillsIndex = skillIndexValue && skillIndexValue < 2 ? skillIndexValue : 0;
+  let intervalID;
+  let textIndex = 0;
+
+  intervalID = setInterval(()=>{
+    const skillText = skills[skillsIndex];
+
+    if(textIndex < skillText.length){
+      skillTextEl.innerHTML += (skillText.charAt(textIndex) === ' ') ? '&nbsp' : skillText.charAt(textIndex);
+      textIndex++;
+    }else{
+      clearInterval(intervalID);
+      skillTextEl.classList.add('blink');
+      setTimeout(()=>{
+        skillTextEl.classList.remove('blink');
+        skillTextEl.innerHTML = '';
+        animateSkillsText(skillsIndex + 1);
+      },2000);
+    };
+  },350);
+};
+
+animateSkillsText();
+
+displayParticles(3,document.querySelector('main').className === 'dark' ? '#66FCF1' : '#1f2c5c');
+
+window.addEventListener('resize',()=>{
+  const mainEl = document.querySelector('main');
+  const particlesColor = mainEl.className === 'dark' ? '#66FCF1' : '#1f2c5c';
+  const pJS = window.pJSDom[0].pJS;
+  pJS.particles.color.value = particlesColor;
+  pJS.particles.line_linked.color = particlesColor;
+  pJS.fn.particlesRefresh();
+
+  document.querySelector('.shape-icon').style = `animation:none; ${mainEl.className === 'dark' ? 'transform:scale(.55);' :''}`;
+  document.querySelectorAll('g > circle').forEach(circleEl => {
+    circleEl.style = `animation:none; ${mainEl.className === 'dark' ? 'transform:scale(1);' :''}`;
+  });
+});
+
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change' , event => {
+  const mainEl = document.querySelector('main');
+  mainEl.className = event.matches ? 'dark' : 'light';
+  const particlesColor = mainEl.className === 'dark' ? '#66FCF1' : '#1f2c5c';
+  const pJS = window.pJSDom[0].pJS;
+  pJS.particles.color.value = particlesColor;
+  pJS.particles.line_linked.color = particlesColor;
+  pJS.fn.particlesRefresh();
+});
 
 document.querySelector('.theme-icon').addEventListener('click',handleTheme);
 //acces the last li element of the sidebar
