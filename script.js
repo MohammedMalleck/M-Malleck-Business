@@ -160,9 +160,11 @@ function animateSkillsText(skillIndexValue){
   },350);
 };
 
+
 animateSkillsText();
 
 displayParticles(3,document.querySelector('main').className === 'dark' ? '#66FCF1' : '#1f2c5c');
+
 
 window.addEventListener('resize',()=>{
   const mainEl = document.querySelector('main');
