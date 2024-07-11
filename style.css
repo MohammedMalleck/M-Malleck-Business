@@ -3,7 +3,6 @@
   padding: 0px;
   box-sizing: border-box;
   scroll-behavior: smooth;
-  scroll-margin-top:50px;
 }
 :root{
   --light-theme-bg:linear-gradient(to bottom, #7397F1 0%, #A2B3EC 25%, #C4CBF0 57%, #D5D7F2 100%);
@@ -444,6 +443,7 @@ svg{
     display: none;
   }
 }
+/*home section*/
 .home-section{
   height:calc(70vh - 50px);
   display: flex;
@@ -458,6 +458,7 @@ svg{
   justify-content: space-between;
 }
 .introduction-container{
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -653,6 +654,7 @@ svg{
     margin: 0 auto;
   }
   .introduction-container{
+    width: 100%;
     order: 2;
 
     & h1{
