@@ -44,6 +44,9 @@
   --pre-text-small:1.1rem;
   --pre-text-extra-small:1rem;
   --pre-text-extra-small-x:.93rem;
+
+
+  --move-up:-100%;  
 }
 html{
   font-size: 10px;
@@ -433,7 +436,31 @@ svg{
   & h1{
     font-weight: 400;
     font-size: var(--h1-default);
+    clip-path:inset(0px 0px 0px 0px);
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    & > div:nth-child(1){
+      opacity: 0;
+      pointer-events: none;
+    }
   }  
+}
+.animation-name{
+  position:absolute;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  top:100%;
+  
+  & div > span{
+    display:inline-block;
+    transform: translateY(0%);
+    animation:moveUp .5s ease forwards;
+    animation-delay: calc(var(--i) * 0.04s);
+  }
 }
 .skills-container{
   font-size:var(--text-extra-large);
@@ -676,6 +703,12 @@ svg{
     width: 17px;
     aspect-ratio: 1;
   }
+  :root{
+    --move-up:-200%;  
+  }
+  .animation-name{
+    justify-content:center;
+  }
 }
 @media (max-width:320px){
   .introduction-container{
@@ -844,5 +877,10 @@ svg{
   }
   100%{
     stroke-dashoffset:0;         
+  }
+}
+@keyframes moveUp{
+  to{
+    transform: translateY(var(--move-up));
   }
 }

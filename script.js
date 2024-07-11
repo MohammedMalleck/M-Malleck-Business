@@ -159,12 +159,20 @@ function animateSkillsText(skillIndexValue){
     };
   },350);
 };
+function nameAnimation(){
+  const nameEl =  document.querySelector('.animation-name');
+  const wordsArray = nameEl.innerText.split(' ');
+  nameEl.innerHTML = wordsArray.map((word,index) =>
+  `<div>${word.replace( /[a-zA-Z,]/g,match => `<span>${match}</span>`)}${index !== wordsArray.length -1 ? '&nbsp' : ''}</div>`).join('\n');
+  document.querySelectorAll('.animation-name > div > span').forEach((spanEl,index)=>spanEl.style = `--i:${index};`);
+};
 
 
 animateSkillsText();
 
 displayParticles(3,document.querySelector('main').className === 'dark' ? '#66FCF1' : '#1f2c5c');
 
+nameAnimation();
 
 window.addEventListener('resize',()=>{
   const mainEl = document.querySelector('main');
