@@ -467,8 +467,19 @@ svg{
   display: flex;
   align-items: center;
   gap: 10px;
-  & .skill-text{
+  & .skill-text-container{
     position: relative;
+
+    & div:nth-child(1){
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+  & .skill-text{
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translate(0%,-50%);
   }
 }
 .skill-text::after{
@@ -569,23 +580,17 @@ svg{
       font-size:var(--h1-medium);
     }
 
-    & h1,
     & p{
       text-align: center;
     }
 
     & .skills-container{
       justify-content: center;
-      font-size: var(--text-large);
-
-      & .skill-text-container{
-        width: 145px;
-
-        & .skill-text::after{
-          width: 2px;
-        }
-      }
+      font-size: var(--text-large);      
     }
+  }
+  .skill-text::after{
+    width: 2px;
   }
   .personal-image-container{
     height: 314px;
@@ -607,6 +612,9 @@ svg{
   .html-code{
     right:12%;
   }
+  .animation-name{
+    justify-content:center;
+  }
 }
 @media (max-width:720px){
   .bar-icon,
@@ -625,9 +633,6 @@ svg{
     }
     & .skills-container{
       font-size: var(--text-large-x);
-      & .skill-text-container{
-        width: 135px;
-      }
     }
     & p{
       font-size: var(--text-extra-medium);
@@ -679,9 +684,6 @@ svg{
     }
     & .skills-container{
       font-size: var(--text-default);
-      & .skill-text-container{
-        width: 110px;
-      }
     }
     & p{
       font-size: var(--text-extra-medium-x);
@@ -706,9 +708,6 @@ svg{
   :root{
     --move-up:-200%;  
   }
-  .animation-name{
-    justify-content:center;
-  }
 }
 @media (max-width:320px){
   .introduction-container{
@@ -717,9 +716,6 @@ svg{
     }
     & .skills-container{
       font-size: var(--text-extra-medium-xx);
-      & .skill-text-container{
-        width: 93px;
-      }
     }
     & p{
       font-size: var(--text-medium);
