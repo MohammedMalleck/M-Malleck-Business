@@ -1,3 +1,5 @@
+const observer = new IntersectionObserver(handleObserver,{root : null, rootMargin : '0px' , threshold : 0.2});
+
 function displayParticles(speed,color){
   particlesJS("particles-js",
     {
@@ -164,7 +166,18 @@ function nameAnimation(){
   const wordsArray = nameEl.innerText.split(' ');
   nameEl.innerHTML = wordsArray.map((word,index) =>
   `<div>${word.replace( /[a-zA-Z,]/g,match => `<span>${match}</span>`)}${index !== wordsArray.length -1 ? '&nbsp' : ''}</div>`).join('\n');
-  document.querySelectorAll('.animation-name > div > span').forEach((spanEl,index)=>spanEl.style = `--i:${index};`);
+  setTimeout(()=>{
+    document.querySelectorAll('.animation-name > div > span').forEach((spanEl,index)=>spanEl.style = `--i:${index};   animation:moveUp .6s ease forwards;    animation-delay: calc(var(--i) * 0.1s);`);
+  },500);
+};
+
+function handleObserver(entries,observer){
+  entries.forEach( entry =>{
+    if(entry.isIntersecting){
+      entry.target.querySelector('.service').classList.add('show');
+      observer.unobserve(entry.target);
+    }
+  });
 };
 
 
@@ -173,6 +186,12 @@ animateSkillsText();
 displayParticles(3,document.querySelector('main').className === 'dark' ? '#66FCF1' : '#1f2c5c');
 
 nameAnimation();
+
+document.querySelectorAll('.service-container').forEach(serviceContainerEl => {
+  observer.observe(serviceContainerEl);
+  window.navigator.maxTouchPoints > 0 ?  serviceContainerEl.querySelector('.service').classList.add('touch-device') : '';
+});
+
 
 window.addEventListener('resize',()=>{
   const mainEl = document.querySelector('main');
