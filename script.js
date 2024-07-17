@@ -1,3 +1,4 @@
+import './style.scss';
 const observer = new IntersectionObserver(handleObserver,{root : null, rootMargin : '0px' , threshold : 0.2});
 
 function displayParticles(speed,color){
